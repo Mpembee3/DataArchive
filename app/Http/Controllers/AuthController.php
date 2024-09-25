@@ -62,8 +62,6 @@ class AuthController extends Controller
 
     }
 
-         
-
     public function showUSerReg(){
 
         $roles = Role::all();

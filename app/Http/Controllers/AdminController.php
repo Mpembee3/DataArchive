@@ -71,10 +71,13 @@ class AdminController extends Controller
           'fname' => $request->fname,
           'lname' => $request->lname,
           'email' => $request->email,
-          'email' => $request->email,
-          'email' => $request->email,
-          'email' => $request->email,
-          'email' => $request->email,
+          'phone' => $request->phone,
+          'address' => $request->address,
+          'gender' => $request->gender,
+          'birthdate' => $request->birthdate,
+          'marital_status' => $request->marital_status,
+          'family_id' => $request->family_id,
+          'supervisor_id' => $request->supervisor_id,
 
          ]);   
           }
