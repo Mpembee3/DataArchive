@@ -46,11 +46,12 @@ class AdminController extends Controller
     public function showMembers(){
 
         $user = Auth::user();
+        $roles = Role::all();
         $users = User::all();
         $members = Member::all();
         $families = Family::all();
         
-        return view('tables.members',compact('user','members','users','families'));
+        return view('tables.members',compact('user','members','users','families','roles'));
     }
 
     public function showEditMember($id){
@@ -62,7 +63,28 @@ class AdminController extends Controller
         return view('edit.members',compact('user','users','families','member'));
     }
 
-    public function updateMembers(Request $request,$id){
+    public function addMember(Request $request){
+
+         Member::create([
+
+          'fname' => $request->fname,
+          'lname' => $request->lname,
+          'email' => $request->email,
+          'phone' => $request->phone,
+          'address' => $request->address,
+          'gender' => $request->gender,
+          'birthdate' => $request->birthdate,
+          'marital_status' => $request->marital_status,
+          'family_id' => $request->family_id,
+          'supervisor_id' => $request->supervisor_id,
+
+         ]);
+
+         return redirect()->route('members')->with('success', 'Member added successfully');
+
+    }
+
+    public function updateMember(Request $request,$id){
 
         $member = Member::findOrFail($id);
 
@@ -80,6 +102,9 @@ class AdminController extends Controller
           'supervisor_id' => $request->supervisor_id,
 
          ]);   
+
+        return redirect()->route('members')->with('success','member updated');
+
           }
 
     public function showFamilies(){
@@ -112,7 +137,7 @@ class AdminController extends Controller
         
         ]);
 
-        return reidrect()->route('baptism')->with('success', 'Baptism added successfully');
+        return redirect()->route('baptism')->with('success', 'Baptism added successfully');
 
     }
 
@@ -215,4 +240,80 @@ class AdminController extends Controller
         return redirect()->route('index');
 
     }
+
+    public function showMarriages(){
+
+        $user = Auth::user();
+        $husbands = Member::where('gender','Male')->get();
+        $wives = Member::where('gender','Female')->get();
+        $marriages = Marriage::with(['husband','wife'])->get();
+        
+        return view('tables.marriages',compact('user','husbands','wives','marriages'));
+}
+
+    public function addMarriage(Request $request){
+
+         Marriage::create([
+  
+           'husband' => $request->husband,
+           'wife'    => $request->wife,
+           'marriage_date' => $request->marriage_date,
+
+         ]);
+
+        return redirect()->route('marriages')->with('success','marriage addes successfully');
+    }
+
+
+//Events Methods
+
+    public function showEvents(){
+
+        $user = Auth::user();
+        $events = Event::all();
+
+     return view('tables.events',compact('user','events'));
+    }
+
+    public function addEvent(Request $request){
+
+          Event::create([
+
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'location' => $request->location,
+
+          ]);
+      return redirect()->route('events')->with('success','event added!');
+
+    }
+
+    public function updateEvent(Request $request,$id){
+
+            $event = Event::findOrFail($id);
+
+            $event->update([
+
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'location' => $request->location,
+            
+            ]);
+
+            return redirect()->route('events')->with('success','event added!');
+    }
+
+    public function deleteEvent($id){
+
+        $event = Event::findOrFail($id);
+
+        $event->delete();
+
+        return redirect()->route('events')->with('success','successful deletion');
+    }
+    
 }

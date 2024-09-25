@@ -14,13 +14,23 @@ class Marriage extends Model
 
        public function husband(){
 
-        return $this->belongsTo(Member::class,'husband');
+        return $this->belongsTo(Member::class,'husband','id');
 
        }
 
        public function wife(){
 
-        return $this->belongsTo(Member::class,'wife');
+        return $this->belongsTo(Member::class,'wife','id');
 
        }
+
+       public function getHusbandIdAttribute()
+    {
+        return $this->attributes['husband'];
+    }
+    
+    public function getWifeIdAttribute()
+    {
+        return $this->attributes['wife'];
+    }
 }

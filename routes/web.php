@@ -39,6 +39,16 @@ Route::post('/add-family',[AdminController::class,'addFamily'])->name('add-famil
 Route::get('/baptism',[AdminController::class,'showBaptism'])->name('baptism');
 Route::post('/baptism',[AdminController::class,'addBaptism'])->name('add-baptism');
 Route::get('/marriages',[AdminController::class,'showMarriages'])->name('marriages');
+Route::post('/add-marriage',[AdminController::class,'addMarriage'])->name('add-marriage');
+Route::get('/marriages/edit/{id}',[AdminController::class,'editMarriages'])->name('edit-marriage');
+Route::delete('/marriages/delete/{id}',[AdminController::class,'deleteMarriages'])->name('delete-marriage');
 Route::get('/transfers',[AdminController::class,'showTransfers'])->name('transfers');
 Route::get('/children',[AdminController::class,'showKids'])->name('kids');
 
+
+//Events routes
+Route::get('/events',[AdminController::class,'showEvents'])->name('events');
+Route::post('/add-events',[AdminController::class,'addEvents'])->name('add-events');
+Route::get('/admin/edit/event/{id}',[AdminController::class,'editEvent'])->name('edit-event');
+Route::put('/admin/event/update/{id}',[AdminController::class,'updateEvent'])->name('update-event');
+Route::delete('/admin/delete/event/{id}',[AdminController::class,'deleteEvent'])->name('delete-event');
