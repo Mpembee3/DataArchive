@@ -664,7 +664,7 @@
                                 @foreach($users as $index => $user)
                                 <tr>
                                   <th>{{$index +1}}</th>
-                                  <td>{{$user->member->fname}} {{$user->member->lname}}</td>
+                                  <td><a href="#" data-bs-toggle="modal" data-bs-target="#userModal{{$user->id}}">{{$user->member->fname}} {{$user->member->lname}}</a></td>
                                   <td>{{$user->member->phone}}</td>
                                   <td>{{$user->email}}</td>
                                   <td>{{$user->role->name}}</td>
@@ -679,6 +679,7 @@
                                     </div> 
                                 </td>
                                 </tr>
+                                <x-user-modal :user="$user"/>
                                @endforeach 
                               </tbody>
                             </table>

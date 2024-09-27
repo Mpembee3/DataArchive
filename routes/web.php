@@ -48,7 +48,7 @@ Route::get('/children',[AdminController::class,'showKids'])->name('kids');
 
 //Events routes
 Route::get('/events',[AdminController::class,'showEvents'])->name('events');
-Route::post('/add-events',[AdminController::class,'addEvents'])->name('add-events');
+Route::post('/add-events',[AdminController::class,'addEvent'])->name('add-event');
 Route::get('/admin/edit/event/{id}',[AdminController::class,'editEvent'])->name('edit-event');
 Route::put('/admin/event/update/{id}',[AdminController::class,'updateEvent'])->name('update-event');
 Route::delete('/admin/delete/event/{id}',[AdminController::class,'deleteEvent'])->name('delete-event');

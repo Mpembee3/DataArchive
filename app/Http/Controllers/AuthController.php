@@ -103,13 +103,20 @@ class AuthController extends Controller
 
       public function showResetPassword(){
 
+        
+
        return view('password-reset');
 
       }
 
-      // public function forgotPassword(){
+      public function sendResetLink(Request $request){
         
-      // }
+          $token = Str::random(6);
+          Mail::to($request->email)->send(new \App\Mail\PasswordReset($token));
+         
+           return back()->with('success','Resent Link sent');     
+
+      }
 
       public function resetPassword(Request $request){
 

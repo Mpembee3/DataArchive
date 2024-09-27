@@ -393,6 +393,11 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
+            <a href="{{route('events')}}">
+              <i class="bi bi-circle"></i><span>Events</span>
+            </a>
+          </li>
+          <li>
             <a href="{{route('users')}}">
               <i class="bi bi-circle"></i><span>Users</span>
             </a>
@@ -647,11 +652,12 @@
                     @foreach($users as $index => $user)  
                     <tr>
                         <td>{{$index +1}}</td>
-                        <td>{{$user->member->fname}} {{$user->member->lname}}</td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#userModal{{$user->id}}">{{$user->member->fname}} {{$user->member->lname}}</a></td>
                         <td>{{$user->role->name}}</td>
                         <td>{{$user->email}}</td>
                         <td><a  href="{{route('admin-edit-user',$user->id)}}" class="btn btn-primary">Edit</a></td>
                       </tr>
+                      <x-user-modal :user="$user"/>
                      @endforeach 
                     </tbody>
                   </table>
@@ -696,12 +702,13 @@
                         @foreach($members as $index => $member)
                       <tr>
                         <th scope="row"><a href="#">{{ $index +1 }}</a></th>
-                        <td><a href="#" >{{$member->fname}} {{$member->lname}}</a></td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#memberModal{{$member->id}}">{{$member->fname}} {{$member->lname}}</a></td>
                         <td>{{$member->phone}}</td>
                         <td>{{$member->email}}</td>
-                        <td>{{optional($member->supervisor)->lname}}</td>
+                        <td>{{$member->supervisor}}</td>
                         <td><a href="{{route('admin-edit-member', $member->id)}}" class="btn btn-primary">Edit</a></td>
                       </tr>
+                      <x-member-modal :member="$member"/>
                        @endforeach
                       
                     </tbody>
@@ -734,58 +741,20 @@
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+              <h5 class="card-title">Recent Activity <span>| </span></h5>
 
               <div class="activity">
+                @foreach($events as $event)
 
                 <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
+                  <div class="activite-label">{{$event->start_date}}</div>
                   <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                   <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                     <a href="#" class="fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#eventModal{{$event->id}}">{{$event->title}}</a>
                   </div>
                 </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                  </div>
-                </div><!-- End activity item-->
-
+                <x-event-modal :event="$event"/>
+                @endforeach
               </div>
 
             </div>

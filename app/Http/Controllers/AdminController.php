@@ -30,8 +30,11 @@ class AdminController extends Controller
         $familyTotal = Family::all()->count();
         $baptismTotal = Baptism::all()->count();
         $marriageTotal = Marriage::all()->count();
+        $events = Event::where('start_date','>=',now())
+                            ->orderBy('start_date','asc')
+                            ->limit(6)->get();
 
-    return view('admin',compact('members','users','user','memberTotal','familyTotal','baptismTotal','marriageTotal'));
+    return view('admin',compact('members','users','user','memberTotal','familyTotal','baptismTotal','marriageTotal','events'));
 
     }
 
@@ -48,10 +51,15 @@ class AdminController extends Controller
         $user = Auth::user();
         $roles = Role::all();
         $users = User::all();
-        $members = Member::all();
+        // $members = Member::with('user')->get();
+        $members = Member::select('members.*', 'members.lname as supervisor')
+        ->leftjoin('users', 'members.id', '=', 'users.member_id')
+        ->get();
+        $supervisor = Member::select('members.lname as name')->join('users','users.id','=','members.supervisor_id')->get();
         $families = Family::all();
+     
         
-        return view('tables.members',compact('user','members','users','families','roles'));
+        return view('tables.members',compact('user','members','users','families','roles','supervisor'));
     }
 
     public function showEditMember($id){
@@ -246,7 +254,7 @@ class AdminController extends Controller
         $user = Auth::user();
         $husbands = Member::where('gender','Male')->get();
         $wives = Member::where('gender','Female')->get();
-        $marriages = Marriage::with(['husband','wife'])->get();
+        $marriages = Marriage::with(['husband'])->get();
         
         return view('tables.marriages',compact('user','husbands','wives','marriages'));
 }
@@ -314,6 +322,20 @@ class AdminController extends Controller
         $event->delete();
 
         return redirect()->route('events')->with('success','successful deletion');
+    }
+
+    public function showKids(){
+
+        $user = Auth::user();
+
+        $teens = Member::whereBetween(\DB::raw('TIMESTAMPDIFF(YEAR, birthdate, CURDATE())'), [10, 17])
+                       ->get();  
+
+        $kids = Member::whereBetween(\DB::raw('TIMESTAMPDIFF(YEAR, birthdate, CURDATE())'), [3, 9])
+                       ->get();  
+
+            return view('tables.kids',compact('user','teens','kids'));
+
     }
     
 }

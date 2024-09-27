@@ -213,13 +213,13 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="{{asset('assets/img/unnamed.jpg')}}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{$user->lname}}</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->member->lname }}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>{{$user->fname}} {{$user->lname}}</h6>
-              <span>{{$user->role->name}}/span>
+              <h6>{{$user->member->fname}} {{$user->member->lname}}</h6>
+              <span>{{$user->role->name}}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -669,7 +669,7 @@
                         <td><a href="#" data-bs-toggle="modal" data-bs-target="#memberModal{{$member->id}}">{{$member->fname}} {{$member->lname}}</a></td>
                         <td>{{$member->phone}}</td>
                         <td>{{$member->email}}</td>
-                        <td>{{$member->supervisor_id}}</td>
+                        <td>{{$member->supervisor->user}}</td>
                         <td>
                         <div class="d-flex">
                         <a href="{{route('admin-edit-member',$member->id)}}" class="btn btn-primary me-2">Edit</a>
@@ -682,7 +682,7 @@
                         </td>
                         </div>
                       </tr>
-                      
+                      <x-member-modal :member="$member"/>
                        @endforeach
                       
                     </tbody>
@@ -864,29 +864,7 @@
 
 </main><!-- End #main -->
 
-<!-- Modals outside the table -->
-@foreach($members as $member)
-    <div class="modal fade" id="memberModal{{ $member->id }}" tabindex="-1" aria-labelledby="memberModalLabel{{ $member->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="memberModalLabel{{ $member->id }}">{{ $member->fname }} {{ $member->lname }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Phone: {{ $member->phone }}</p>
-                    <p>Email: {{ $member->email }}</p>
-                    <p>Address: {{ $member->address }}</p>
-                    <p>Gender: {{ $member->gender }}</p>
-                    <p>Marital Status: {{ $member->marital_status }}</p>
-                    <p>Deacon: {{ optional($member->supervisor)->lname }}</p>
-                    <p>Family: {{ $member->family_id }}</p>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-@endforeach
+
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
