@@ -61,7 +61,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function supervisedMembers(): HasMany
+    public function supervisor(): HasMany
     {
         return $this->hasMany(Member::class, 'supervisor_id');
     }

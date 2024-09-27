@@ -51,15 +51,17 @@ class AdminController extends Controller
         $user = Auth::user();
         $roles = Role::all();
         $users = User::all();
-        // $members = Member::with('user')->get();
-        $members = Member::select('members.*', 'members.lname as supervisor')
-        ->leftjoin('users', 'members.id', '=', 'users.member_id')
-        ->get();
-        $supervisor = Member::select('members.lname as name')->join('users','users.id','=','members.supervisor_id')->get();
-        $families = Family::all();
+        $members = Member::all();
+
+        // dd($members);      
+        $members = Member::select('members.*', 'supervisor.fname as supervisor_fname', 'supervisor.lname as supervisor_lname')
+        ->leftJoin('members as supervisor', 'members.supervisor_id', '=', 'supervisor.id') // Self-join to get supervisor's details
+        ->get(); 
+
+        $families = Family::all(); 
      
         
-        return view('tables.members',compact('user','members','users','families','roles','supervisor'));
+        return view('tables.members',compact('user','members','users','families','roles'));
     }
 
     public function showEditMember($id){
@@ -254,7 +256,14 @@ class AdminController extends Controller
         $user = Auth::user();
         $husbands = Member::where('gender','Male')->get();
         $wives = Member::where('gender','Female')->get();
-        $marriages = Marriage::with(['husband'])->get();
+       // $marriages = Marriage::with(['husband', 'wife'])->get();
+
+       $marriages = Marriage::all()->map(function($marriage) {
+        $marriage->husband = Member::find($marriage->husband);
+        $marriage->wife = Member::find($marriage->wife);
+        return $marriage;
+      });
+              
         
         return view('tables.marriages',compact('user','husbands','wives','marriages'));
 }

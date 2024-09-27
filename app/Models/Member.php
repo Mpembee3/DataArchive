@@ -51,11 +51,11 @@ protected $fillable = ['fname','lname','phone','gender','email','address','birth
 
         public function marriageAsHusband(){
 
-            return $this->hasOne(Marriage::class,'husband','id');
+            return $this->hasOne(Marriage::class,'husband', 'id');
         }
 
         public function marriageAsWife(){
 
-            return $this->hasOne(Marriage::class,'wife','id');
+            return $this->hasOne(Marriage::class,'wife', 'id');
         }
 }

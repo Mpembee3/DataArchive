@@ -665,8 +665,8 @@
                       
 
                         <th scope="row"><a href="#">{{ $index +1 }}</a></th>
-                        <td>{{$marriage->husband}}</td>
-                        <td>{{$marriage->wife}}</td>
+                        <td>{{ $marriage->husband->fname }} {{ $marriage->husband->lname }}</td>
+                        <td>{{$marriage->wife->fname}} {{ $marriage->wife->lname }}</td>
                         <td>{{$marriage->marriage_date}}</td>
                         
                         <td>

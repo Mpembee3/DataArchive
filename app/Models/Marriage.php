@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Member;
 
 class Marriage extends Model
 {
@@ -17,23 +18,23 @@ class Marriage extends Model
 
        public function husband(){
 
-        return $this->belongsTo(Member::class,'husband','id');
+        return $this->belongsTo(Member::class,'husband', 'id');
 
        }
 
        public function wife(){
 
-        return $this->belongsTo(Member::class,'wife','id');
+        return $this->belongsTo(Member::class,'wife', 'id');
 
        }
 
-       public function getHusbandIdAttribute()
-    {
-        return $this->attributes['husband'];
-    }
+    //    public function getHusbandIdAttribute()
+    // {
+    //     return $this->attributes['husband'];
+    // }
     
-    public function getWifeIdAttribute()
-    {
-        return $this->attributes['wife'];
-    }
+    // public function getWifeIdAttribute()
+    // {
+    //     return $this->attributes['wife'];
+    // }
 }

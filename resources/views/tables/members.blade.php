@@ -669,7 +669,7 @@
                         <td><a href="#" data-bs-toggle="modal" data-bs-target="#memberModal{{$member->id}}">{{$member->fname}} {{$member->lname}}</a></td>
                         <td>{{$member->phone}}</td>
                         <td>{{$member->email}}</td>
-                        <td>{{$member->supervisor->user}}</td>
+                        <td>{{$member->supervisor_fname }} {{$member->supervisor_lname }}</td>
                         <td>
                         <div class="d-flex">
                         <a href="{{route('admin-edit-member',$member->id)}}" class="btn btn-primary me-2">Edit</a>
